@@ -66,11 +66,11 @@ function App(): JSX.Element {
     }
 
     const removeTask = (taskId: string, todoListId: string): void => {
-        const nextState: TaskType[] = tasks[todoListId].filter(task => task.id !== taskId)
+        const afterDeletedTasks: TaskType[] = tasks[todoListId].filter(task => task.id !== taskId)
 
         setTasks({
             ...tasks,
-            [todoListId]: [...tasks[todoListId] = nextState]
+            [todoListId]: afterDeletedTasks
         })
     }
 
