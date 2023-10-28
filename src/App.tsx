@@ -30,6 +30,16 @@ function App(): JSX.Element {
         setTasks({...tasks})
     }
 
+    const addTodoList = (): void => {
+        const newTodoList: TodoType = {
+            id: v1(),
+            title: "todo",
+            filter: "All",
+        }
+        setTodoData([...todoData, newTodoList])
+        tasks[newTodoList.id] = []
+    }
+
     let [tasks, setTasks] = useState({
         [todoList1]: [
             {id: v1(), title: "1HTML&CSS", isDone: true},
@@ -111,6 +121,7 @@ function App(): JSX.Element {
     return (
         <div className="App">
             {todoList}
+            <button onClick={addTodoList}>Add new todolist</button>
         </div>
     )
 }
