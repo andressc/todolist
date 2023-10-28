@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import "./App.css"
 import {v1} from "uuid"
-import {TodoList} from "./TodoList"
+import {TodoList} from "./components/TodoList/TodoList"
 import {Filter, TaskType, TodoType} from "./types"
 
 function App(): JSX.Element {

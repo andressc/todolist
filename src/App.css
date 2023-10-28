@@ -1,10 +1,28 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .App {
   padding: 30px;
   display: flex;
+  gap: 30px;
+  align-items: flex-start;
 }
 
-.App > div {
-  margin-right: 50px;
+button {
+  border: none;
+  height: 30px;
+  min-width: 30px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: aquamarine;
 }
 
 .button-active {

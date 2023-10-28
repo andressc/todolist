@@ -1,0 +1,53 @@
+.todo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #3f3939;
+    gap: 20px;
+    color: #fff;
+    padding: 50px;
+    width: 300px;
+}
+
+.todo h3 {
+    font-size: 25px;
+}
+
+.todo ul {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style-type: none;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px
+}
+
+.textInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px
+}
+
+.textInput input {
+    height: 30px;
+    font-size: 15px;
+    background-color: #4f4f4f;
+    border: 1px solid #1e1e1e;
+    color: #fff;
+    width: 160px;
+}

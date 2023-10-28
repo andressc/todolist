@@ -1,7 +1,8 @@
 import React, {KeyboardEvent, ChangeEvent, useState, DetailedHTMLProps, HTMLAttributes} from "react"
-import {ButtonFilter} from "./ButtonFilter"
-import {Filter, TaskType} from "./types"
-import {Task} from "./Task"
+import {ButtonFilter} from "../ButtonFilter/ButtonFilter"
+import {Filter, TaskType} from "../../types"
+import {Task} from "../Task/Task"
+import styles from "./TodoList.module.css"
 
 interface PropsType extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     id: string
@@ -71,23 +72,26 @@ export const TodoList: React.FC<PropsType> = ({
     }
 
     return (
-        <div {...restProps}>
-            <h3>{title}
+        <div {...restProps} className={styles.todo}>
+            <div className={styles.title}>
+                <h3>{title}</h3>
                 <button onClick={removeTodoListHandler}>X</button>
-            </h3>
-            <div>
-                <input value={inputText} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
-                <button onClick={onClickHandler} disabled={disabledButton}>+</button>
-                {titleText}
             </div>
-            <ul>
-                {taskList}
-            </ul>
-            <div>
+
+            <div className={styles.buttons}>
                 <ButtonFilter changeFilter={changeFilterHandler} filter="All" filterState={filter}/>
                 <ButtonFilter changeFilter={changeFilterHandler} filter="Active" filterState={filter}/>
                 <ButtonFilter changeFilter={changeFilterHandler} filter="Completed" filterState={filter}/>
             </div>
+
+            <div className={styles.textInput}>
+                <input value={inputText} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
+                <button onClick={onClickHandler} disabled={disabledButton}>+</button>
+            </div>
+            {titleText}
+            <ul>
+                {taskList}
+            </ul>
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import React, {ChangeEvent, DetailedHTMLProps, LiHTMLAttributes} from "react"
-import {TaskType} from "./types"
+import {TaskType} from "../../types"
+import styles from "./Task.module.css"
 
 interface PropsType extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
     task: TaskType
@@ -13,7 +14,7 @@ export const Task: React.FC<PropsType> = ({task, removeTasks, changeStatus, ...r
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => changeStatus(task.id, e.currentTarget.checked)
 
     return (
-        <li key={task.id} className={task.isDone ? "is-done" : ""} {...restProps}>
+        <li key={task.id} className={`${styles.task} ${task.isDone ? "is-done" : ""}`} {...restProps}>
             <input type="checkbox" checked={task.isDone} onChange={onChangeHandler}/>
             <span>{task.title}</span>
             <button onClick={onRemoveHandler}>X</button>
