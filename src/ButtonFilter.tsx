@@ -1,17 +1,19 @@
-import {Filter} from "./TodoList"
-import React, {MouseEvent} from "react"
+import React from "react"
+
+export type Filter = "All" | "Active" | "Completed"
 
 type ButtonFilterPropsType = {
     filter: Filter
+    filterState: Filter
     changeFilter: (filter: Filter) => void
 }
 
-export const ButtonFilter: React.FC<ButtonFilterPropsType> = ({filter, changeFilter}) => {
-    const onFilterHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        changeFilter(e.currentTarget.getAttribute('data-name') as Filter)
+export const ButtonFilter: React.FC<ButtonFilterPropsType> = ({filter, changeFilter, filterState}): JSX.Element => {
+    const onFilterHandler = (): void => {
+        changeFilter(filter)
     }
 
     return (
-        <button onClick={onFilterHandler} data-name={filter}>{filter}</button>
+        <button onClick={onFilterHandler} className={filterState === filter ? "button-active" : ""}>{filter}</button>
     )
 }
