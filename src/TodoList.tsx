@@ -7,7 +7,7 @@ type PropsType = {
     tasks: TaskType[]
     title: string
     changeFilter: (filter: Filter, todoListId: string) => void
-    removeTasks: (taskId: string, todoListId: string) => void
+    removeTask: (taskId: string, todoListId: string) => void
     addTask: (title: string, todoListId: string) => void
     changeStatus: (taskId: string, isDone: boolean, todoListId: string) => void
     removeTodoList: (todoListId: string) => void
@@ -19,7 +19,7 @@ export const TodoList: React.FC<PropsType> = ({
                                                   tasks,
                                                   title,
                                                   changeFilter,
-                                                  removeTasks,
+                                                  removeTask,
                                                   addTask,
                                                   changeStatus,
                                                   filter,
@@ -48,7 +48,7 @@ export const TodoList: React.FC<PropsType> = ({
     const disabledButton: boolean = !inputText.trim() || inputText.trim().length > 15 && true
 
     const removeTaskHandler = (taskId: string) => {
-        removeTasks(taskId, id)
+        removeTask(taskId, id)
     }
 
     const changeStatusHandler = (taskId: string, isDone: boolean) => {

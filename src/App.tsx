@@ -1,7 +1,9 @@
 import React, {useState} from "react"
 import "./App.css"
-import {Filter, TaskType, TodoList} from "./TodoList"
 import {v1} from "uuid"
+import {Filter} from "./ButtonFilter"
+import {TaskType} from "./Task"
+import {TodoList} from "./TodoList"
 
 type TodoType = {
     id: string
@@ -63,7 +65,7 @@ function App(): JSX.Element {
         }
     }
 
-    const removeTasks = (taskId: string, todoListId: string): void => {
+    const removeTask = (taskId: string, todoListId: string): void => {
         const nextState: TaskType[] = tasks[todoListId].filter(task => task.id !== taskId)
 
         setTasks({
@@ -104,7 +106,7 @@ function App(): JSX.Element {
                       tasks={initialTask}
                       title={todo.title}
                       changeFilter={changeFilter}
-                      removeTasks={removeTasks}
+                      removeTask={removeTask}
                       addTask={addTask}
                       changeStatus={changeStatus}
                       filter={todo.filter}
