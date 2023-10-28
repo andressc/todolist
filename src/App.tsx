@@ -1,15 +1,8 @@
 import React, {useState} from "react"
 import "./App.css"
 import {v1} from "uuid"
-import {Filter} from "./ButtonFilter"
-import {TaskType} from "./Task"
 import {TodoList} from "./TodoList"
-
-type TodoType = {
-    id: string
-    title: string
-    filter: Filter,
-}
+import {Filter, TaskType, TodoType} from "./types"
 
 function App(): JSX.Element {
 

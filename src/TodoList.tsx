@@ -1,8 +1,9 @@
-import React, {KeyboardEvent, ChangeEvent, useState} from "react"
-import {Task, TaskType} from "./Task"
-import {ButtonFilter, Filter} from "./ButtonFilter"
+import React, {KeyboardEvent, ChangeEvent, useState, DetailedHTMLProps, HTMLAttributes} from "react"
+import {ButtonFilter} from "./ButtonFilter"
+import {Filter, TaskType} from "./types"
+import {Task} from "./Task"
 
-type PropsType = {
+interface PropsType extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     id: string
     tasks: TaskType[]
     title: string
@@ -23,7 +24,8 @@ export const TodoList: React.FC<PropsType> = ({
                                                   addTask,
                                                   changeStatus,
                                                   filter,
-                                                  removeTodoList
+                                                  removeTodoList,
+                                                  ...restProps
                                               }): JSX.Element => {
 
     let [inputText, setInputText] = useState<string>("")
@@ -69,8 +71,10 @@ export const TodoList: React.FC<PropsType> = ({
     }
 
     return (
-        <div>
-            <h3>{title}<button onClick={removeTodoListHandler}>X</button></h3>
+        <div {...restProps}>
+            <h3>{title}
+                <button onClick={removeTodoListHandler}>X</button>
+            </h3>
             <div>
                 <input value={inputText} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
                 <button onClick={onClickHandler} disabled={disabledButton}>+</button>

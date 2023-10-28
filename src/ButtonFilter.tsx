@@ -1,19 +1,24 @@
-import React from "react"
+import React, {ButtonHTMLAttributes, DetailedHTMLProps} from "react"
+import {Filter} from "./types"
 
-export type Filter = "All" | "Active" | "Completed"
-
-type ButtonFilterPropsType = {
+interface PropsType extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
     filter: Filter
     filterState: Filter
     changeFilter: (filter: Filter) => void
 }
 
-export const ButtonFilter: React.FC<ButtonFilterPropsType> = ({filter, changeFilter, filterState}): JSX.Element => {
+export const ButtonFilter: React.FC<PropsType> = ({
+                                                      filter,
+                                                      changeFilter,
+                                                      filterState,
+                                                      ...restProps
+                                                  }): JSX.Element => {
     const onFilterHandler = (): void => {
         changeFilter(filter)
     }
 
     return (
-        <button onClick={onFilterHandler} className={filterState === filter ? "button-active" : ""}>{filter}</button>
+        <button onClick={onFilterHandler}
+                className={filterState === filter ? "button-active" : ""} {...restProps}>{filter}</button>
     )
 }
