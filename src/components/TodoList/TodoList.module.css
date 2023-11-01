@@ -1,12 +1,13 @@
 .todo {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     background-color: #3f3939;
     gap: 20px;
     color: #fff;
     padding: 50px;
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
 }
 
 .todo h3 {
@@ -34,20 +35,4 @@
     justify-content: center;
     align-items: center;
     gap: 10px
-}
-
-.textInput {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px
-}
-
-.textInput input {
-    height: 30px;
-    font-size: 15px;
-    background-color: #4f4f4f;
-    border: 1px solid #1e1e1e;
-    color: #fff;
-    width: 160px;
 }

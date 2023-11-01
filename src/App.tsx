@@ -2,7 +2,9 @@ import React, {useState} from "react"
 import "./App.css"
 import {v1} from "uuid"
 import {TodoList} from "./components/TodoList/TodoList"
-import {Filter, TaskType, TodoType} from "./types"
+import {Filter, TasksType, TaskType, TodoType} from "./types"
+import {InputSubmit} from "./components/InputSubmit/InputSubmit"
+import styles from "./components/TodoList/TodoList.module.css"
 
 function App(): JSX.Element {
 
@@ -30,17 +32,34 @@ function App(): JSX.Element {
         setTasks({...tasks})
     }
 
-    const addTodoList = (): void => {
+    const addTodoList = (title: string): void => {
         const newTodoList: TodoType = {
             id: v1(),
-            title: "todo",
+            title: title,
             filter: "All",
         }
-        setTodoData([...todoData, newTodoList])
-        tasks[newTodoList.id] = []
+        setTodoData([newTodoList, ...todoData])
+        setTasks({...tasks, [newTodoList.id]: []})
     }
 
-    let [tasks, setTasks] = useState({
+    const changeTitleTodoList = (title: string, todoListId: string): void => {
+        const todo = todoData.find(todo => todo.id === todoListId)
+
+        if (todo) {
+            todo.title = title
+            setTodoData([...todoData])
+        }
+    }
+
+    const changeFilterTodoList = (filter: Filter, todoListId: string): void => {
+        let todoList = todoData.find(todo => todo.id === todoListId)
+        if (todoList) {
+            todoList.filter = filter
+            setTodoData([...todoData])
+        }
+    }
+
+    let [tasks, setTasks] = useState<TasksType>({
         [todoList1]: [
             {id: v1(), title: "1HTML&CSS", isDone: true},
             {id: v1(), title: "JS", isDone: true},
@@ -60,14 +79,6 @@ function App(): JSX.Element {
         })
     }
 
-    const changeFilter = (filter: Filter, todoListId: string): void => {
-        let todoList = todoData.find(todo => todo.id === todoListId)
-        if (todoList) {
-            todoList.filter = filter
-            setTodoData([...todoData])
-        }
-    }
-
     const removeTask = (taskId: string, todoListId: string): void => {
         const afterDeletedTasks: TaskType[] = tasks[todoListId].filter(task => task.id !== taskId)
 
@@ -77,12 +88,24 @@ function App(): JSX.Element {
         })
     }
 
-
     const changeStatus = (taskId: string, isDone: boolean, todoListId: string): void => {
         let task: TaskType | undefined = tasks[todoListId].find(task => task.id === taskId)
 
         if (task) {
             task.isDone = isDone
+
+            setTasks({
+                ...tasks,
+                [todoListId]: [...tasks[todoListId]]
+            })
+        }
+    }
+
+    const changeTitleTask = (title: string, taskId: string, todoListId: string): void => {
+        let task: TaskType | undefined = tasks[todoListId].find(task => task.id === taskId)
+
+        if (task) {
+            task.title = title
 
             setTasks({
                 ...tasks,
@@ -108,20 +131,27 @@ function App(): JSX.Element {
                       id={todo.id}
                       tasks={initialTask}
                       title={todo.title}
-                      changeFilter={changeFilter}
+                      changeFilter={changeFilterTodoList}
                       removeTask={removeTask}
                       addTask={addTask}
                       changeStatus={changeStatus}
                       filter={todo.filter}
                       removeTodoList={removeTodoList}
+                      changeTitleTodoList={changeTitleTodoList}
+                      changeTitleTask={changeTitleTask}
             />
         )
     })
 
     return (
         <div className="App">
+            <div className={styles.todo}>
+                <div className={styles.title}>
+                    <h3>Add new todolist</h3>
+                </div>
+                <InputSubmit onClickCallBack={addTodoList} buttonTitle="+"/>
+            </div>
             {todoList}
-            <button onClick={addTodoList}>Add new todolist</button>
         </div>
     )
 }

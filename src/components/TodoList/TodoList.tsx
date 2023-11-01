@@ -1,8 +1,10 @@
-import React, {KeyboardEvent, ChangeEvent, useState, DetailedHTMLProps, HTMLAttributes} from "react"
+import React, {DetailedHTMLProps, HTMLAttributes} from "react"
 import {ButtonFilter} from "../ButtonFilter/ButtonFilter"
 import {Filter, TaskType} from "../../types"
 import {Task} from "../Task/Task"
 import styles from "./TodoList.module.css"
+import {InputSubmit} from "../InputSubmit/InputSubmit"
+import {EditableSpan} from "../EditableSpan/EditableSpan"
 
 interface PropsType extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
     id: string
@@ -13,6 +15,8 @@ interface PropsType extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HT
     addTask: (title: string, todoListId: string) => void
     changeStatus: (taskId: string, isDone: boolean, todoListId: string) => void
     removeTodoList: (todoListId: string) => void
+    changeTitleTodoList: (title: string, id: string) => void
+    changeTitleTask: (title: string, taskId: string, todoListId: string) => void
     filter: Filter
 }
 
@@ -25,56 +29,55 @@ export const TodoList: React.FC<PropsType> = ({
                                                   addTask,
                                                   changeStatus,
                                                   filter,
+                                                  changeTitleTodoList,
                                                   removeTodoList,
+                                                  changeTitleTask,
                                                   ...restProps
                                               }): JSX.Element => {
 
-    let [inputText, setInputText] = useState<string>("")
-
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => setInputText(e.currentTarget.value)
-    const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>): void => {
-        if (e.key === "Enter") onClickHandler()
-    }
-
-    const onClickHandler = (): void => {
-
-        if (!inputText.trim()) return
-        if (inputText.trim().length > 15) return
-
-        addTask(inputText.trim(), id)
-        setInputText("")
-    }
-
-    const titleText: boolean | JSX.Element = inputText.length > 15 &&
-        <p style={{color: "red"}}>Your title is too long!</p>
-
-    const disabledButton: boolean = !inputText.trim() || inputText.trim().length > 15 && true
-
-    const removeTaskHandler = (taskId: string) => {
+    const removeTaskHandler = (taskId: string): void => {
         removeTask(taskId, id)
     }
 
-    const changeStatusHandler = (taskId: string, isDone: boolean) => {
+    const changeStatusHandler = (taskId: string, isDone: boolean): void => {
         changeStatus(taskId, isDone, id)
     }
 
-    const taskList: JSX.Element[] = tasks.map(task => <Task key={task.id}
-                                                            task={task} removeTasks={removeTaskHandler}
-                                                            changeStatus={changeStatusHandler}
-    />)
+    const taskList: JSX.Element[] = tasks.map(task => {
 
-    const changeFilterHandler = (filter: Filter) => {
+        const onChangeCallBack = (title: string, taskId: string) => {
+            changeTitleTask(title, taskId, id)
+        }
+
+        return (<Task key={task.id}
+                      task={task} removeTasks={removeTaskHandler}
+                      changeStatus={changeStatusHandler}
+                      changeTitleTask={onChangeCallBack}
+        />)
+    })
+
+    const changeFilterHandler = (filter: Filter): void => {
         changeFilter(filter, id)
     }
 
-    const removeTodoListHandler = () => {
+    const removeTodoListHandler = (): void => {
         removeTodoList(id)
+    }
+
+    const onClickCallBack = (inputText: string): void => {
+        addTask(inputText.trim(), id)
+    }
+
+    const onChangeCallBack = (title: string,) => {
+        changeTitleTodoList(title, id)
     }
 
     return (
         <div {...restProps} className={styles.todo}>
             <div className={styles.title}>
-                <h3>{title}</h3>
+                <h3>
+                    <EditableSpan text={title} onChangeCallBack={onChangeCallBack}/>
+                </h3>
                 <button onClick={removeTodoListHandler}>X</button>
             </div>
 
@@ -83,12 +86,7 @@ export const TodoList: React.FC<PropsType> = ({
                 <ButtonFilter changeFilter={changeFilterHandler} filter="Active" filterState={filter}/>
                 <ButtonFilter changeFilter={changeFilterHandler} filter="Completed" filterState={filter}/>
             </div>
-
-            <div className={styles.textInput}>
-                <input value={inputText} onChange={onChangeHandler} onKeyDown={onKeyDownHandler}/>
-                <button onClick={onClickHandler} disabled={disabledButton}>+</button>
-            </div>
-            {titleText}
+            <InputSubmit onClickCallBack={onClickCallBack} buttonTitle="+"/>
             <ul>
                 {taskList}
             </ul>

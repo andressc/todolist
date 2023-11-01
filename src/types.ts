@@ -11,3 +11,7 @@ export type TaskType = {
     title: string
     isDone: boolean
 }
+
+export type TasksType = {
+    [key: string] : TaskType[]
+}
