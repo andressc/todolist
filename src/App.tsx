@@ -82,29 +82,13 @@ function App(): JSX.Element {
     }
 
     const changeStatus = (taskId: string, isDone: boolean, todoListId: string): void => {
-        let task: TaskType | undefined = tasks[todoListId].find(task => task.id === taskId)
-
-        if (task) {
-            task.isDone = isDone
-
-            setTasks({
-                ...tasks,
-                [todoListId]: [...tasks[todoListId]]
-            })
-        }
+        const newTasks = tasks[todoListId].map(task => task.id === taskId ? {...task, isDone: isDone} : task)
+        setTasks({...tasks, [todoListId]: newTasks})
     }
 
     const changeTitleTask = (title: string, taskId: string, todoListId: string): void => {
-        let task: TaskType | undefined = tasks[todoListId].find(task => task.id === taskId)
-
-        if (task) {
-            task.title = title
-
-            setTasks({
-                ...tasks,
-                [todoListId]: [...tasks[todoListId]]
-            })
-        }
+        const newTasks = tasks[todoListId].map(task => task.id === taskId ? {...task, title: title} : task)
+        setTasks({...tasks, [todoListId]: newTasks})
     }
 
     const todoList: JSX.Element[] = todoData.map(todo => {
