@@ -43,20 +43,13 @@ function App(): JSX.Element {
     }
 
     const changeTitleTodoList = (title: string, todoListId: string): void => {
-        const todo = todoData.find(todo => todo.id === todoListId)
-
-        if (todo) {
-            todo.title = title
-            setTodoData([...todoData])
-        }
+        const newTodolist = todoData.map(todo => todo.id === todoListId ? {...todo, title: title} : todo)
+        setTodoData(newTodolist)
     }
 
     const changeFilterTodoList = (filter: Filter, todoListId: string): void => {
-        let todoList = todoData.find(todo => todo.id === todoListId)
-        if (todoList) {
-            todoList.filter = filter
-            setTodoData([...todoData])
-        }
+        const newTodolist = todoData.map(todo => todo.id === todoListId ? {...todo, filter: filter} : todo)
+        setTodoData(newTodolist)
     }
 
     let [tasks, setTasks] = useState<TasksType>({
